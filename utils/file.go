@@ -1,4 +1,4 @@
-package file
+package utils
 
 import (
 	"bufio"
@@ -7,12 +7,26 @@ import (
 	"strings"
 )
 
-func ReadFile(filename string) [][]int {
+func OpenFile(filename string) (*os.File, func()) {
 	file, err := os.Open(filename)
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
+
+	cleanup := func() {
+		if err := file.Close(); err != nil {
+			panic(err)
+		}
+	}
+
+
+
+	return file, cleanup
+}
+
+func ReadIntegerPairs(filename string) [][]int {
+	file, cleanup := OpenFile(filename)
+	defer cleanup()
 
 	var result [][]int
 	scanner := bufio.NewScanner(file)

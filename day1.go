@@ -1,30 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"kwaimind/aoc24/file"
+	"kwaimind/aoc24/utils"
 	"sort"
 )
 
-func parseInput(input [][]int) ([]int, []int) {
-	n := len(input)
-	left := make([]int, 0, n)
-	right := make([]int, 0, n)
-
-	for _, row := range input {
-		left = append(left, row[0])
-		right = append(right, row[1])
-	}
-
-	return left, right
-}
-
-func DayOnePartOne() {
-	input := file.ReadFile("input.txt")
+func DayOnePartOne(filename string) int {
+	input := utils.ReadIntegerPairs(filename)
 
 	output := make([][]int, 0)
 
-	left, right := parseInput(input)
+	left, right := utils.UnzipPairs(input)
 
 	sort.Ints(left)
 	sort.Ints(right)
@@ -41,13 +27,13 @@ func DayOnePartOne() {
 		distance += copy[1] - copy[0]
 	}
 
-	fmt.Println(distance)
+	return distance
 }
 
-func DayOnePartTwo() {
-	input := file.ReadFile("input.txt")
+func DayOnePartTwo(filename string) int {
+	input := utils.ReadIntegerPairs(filename)
 
-	left, right := parseInput(input)
+	left, right := utils.UnzipPairs(input)
 
 	count := 0
 
@@ -61,6 +47,5 @@ func DayOnePartTwo() {
 		}
 	}
 
-	fmt.Println(count)
-
+	return count
 }
