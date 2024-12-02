@@ -46,3 +46,28 @@ func ReadIntegerPairs(filename string) [][]int {
 
 	return result
 }
+
+func ReadIntegerArray(filename string) [][]int {
+	file, cleanup := OpenFile(filename)
+	defer cleanup()
+
+	var result [][]int
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		parts := strings.Fields(line)
+		if len(parts) > 0 {
+			nums := make([]int, len(parts))
+			for i, part := range parts {
+				nums[i], _ = strconv.Atoi(part)
+			}
+			result = append(result, nums)
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+
+	return result
+}

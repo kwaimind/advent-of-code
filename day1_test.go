@@ -6,7 +6,7 @@ import (
 
 func TestDayOnePartOne(t *testing.T) {
 
-	filename := "test.txt"
+	filename := "inputs/day1.test.txt"
 	expected := 11
 
 	result := DayOnePartOne(filename)
@@ -18,7 +18,7 @@ func TestDayOnePartOne(t *testing.T) {
 
 func TestDayOnePartTwo(t *testing.T) {
 
-	filename := "test.txt"
+	filename := "inputs/day1.test.txt"
 	expected := 31
 
 	result := DayOnePartTwo(filename)
