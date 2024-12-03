@@ -3,6 +3,7 @@ package utils
 import (
 	"bufio"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -86,4 +87,19 @@ func ReadStringArray(filename string) []string {
 	}
 
 	return result
+}
+
+func LoadData(filename string, regex string) [][]string {
+	file, cleanup := OpenFile(filename)
+	defer cleanup()
+
+	var strings [][]string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		re := regexp.MustCompile(regex)
+		allStrings := re.FindAllString(line, -1)
+		strings = append(strings, allStrings)
+	}
+	return strings
 }

@@ -11,6 +11,19 @@ func findValidFunctionCalls(line string) []string {
 	return compRegEx.FindAllString(line, -1)
 }
 
+func transform(s string) int {
+	number, err := strconv.Atoi(s)
+	if err != nil {
+		panic("error converting")
+	}
+	return number
+}
+
+func findValidFunctionCallsWithStoppers(line string) []string {
+	compRegEx := regexp.MustCompile(`mul\(\d{1,3}\,\d{1,3}\)|do\(\)|don't\(\)`)
+	return compRegEx.FindAllString(line, -1)
+}
+
 func parseFunctionValues(functionCall string) []int {
 	compRegEx := regexp.MustCompile(`\d{1,3}`)
 	matches := compRegEx.FindAllString(functionCall, -1)
