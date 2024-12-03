@@ -19,8 +19,6 @@ func OpenFile(filename string) (*os.File, func()) {
 		}
 	}
 
-
-
 	return file, cleanup
 }
 
@@ -63,6 +61,24 @@ func ReadIntegerArray(filename string) [][]int {
 			}
 			result = append(result, nums)
 		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+
+	return result
+}
+
+func ReadStringArray(filename string) []string {
+	file, cleanup := OpenFile(filename)
+	defer cleanup()
+
+	var result []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		result = append(result, line)
 	}
 
 	if err := scanner.Err(); err != nil {
