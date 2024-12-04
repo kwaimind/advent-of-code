@@ -11,14 +11,6 @@ func findValidFunctionCalls(line string) []string {
 	return compRegEx.FindAllString(line, -1)
 }
 
-func transform(s string) int {
-	number, err := strconv.Atoi(s)
-	if err != nil {
-		panic("error converting")
-	}
-	return number
-}
-
 func findValidFunctionCallsWithStoppers(line string) []string {
 	compRegEx := regexp.MustCompile(`mul\(\d{1,3}\,\d{1,3}\)|do\(\)|don't\(\)`)
 	return compRegEx.FindAllString(line, -1)
@@ -43,13 +35,38 @@ func parseFunctionValues(functionCall string) []int {
 }
 
 func DayThreePartOne(filename string) int {
-	input := utils.ReadStringArray(filename)
+	input := utils.ReadFileAsString(filename)
 
 	result := 0
 
-	for _, line := range input {
-		functionCalls := findValidFunctionCalls(line)
-		for _, functionCall := range functionCalls {
+	functionCalls := findValidFunctionCalls(input)
+	for _, functionCall := range functionCalls {
+		values := parseFunctionValues(functionCall)
+		result += values[0] * values[1]
+	}
+
+	return result
+}
+
+func DayThreePartTwo(filename string) int {
+	input := utils.ReadFileAsString(filename)
+
+	result := 0
+
+	functionCalls := findValidFunctionCallsWithStoppers(input)
+
+	enabled := true
+
+	for _, functionCall := range functionCalls {
+		if functionCall == "don't()" {
+			enabled = false
+			continue
+		}
+		if functionCall == "do()" {
+			enabled = true
+			continue
+		}
+		if enabled {
 			values := parseFunctionValues(functionCall)
 			result += values[0] * values[1]
 		}

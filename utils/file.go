@@ -2,8 +2,8 @@ package utils
 
 import (
 	"bufio"
+	"fmt"
 	"os"
-	"regexp"
 	"strconv"
 	"strings"
 )
@@ -71,35 +71,11 @@ func ReadIntegerArray(filename string) [][]int {
 	return result
 }
 
-func ReadStringArray(filename string) []string {
-	file, cleanup := OpenFile(filename)
-	defer cleanup()
-
-	var result []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-		result = append(result, line)
+func ReadFileAsString(filename string) string {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		fmt.Println("File reading error", err)
+		return ""
 	}
-
-	if err := scanner.Err(); err != nil {
-		panic(err)
-	}
-
-	return result
-}
-
-func LoadData(filename string, regex string) [][]string {
-	file, cleanup := OpenFile(filename)
-	defer cleanup()
-
-	var strings [][]string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-		re := regexp.MustCompile(regex)
-		allStrings := re.FindAllString(line, -1)
-		strings = append(strings, allStrings)
-	}
-	return strings
+	return string(data)
 }
