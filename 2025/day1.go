@@ -30,10 +30,18 @@ const (
 	match = 0
 )
 
-func update(val int, target *int) {
-	if val == match {
-		*target += 1
+func createUpdate() (func() int, func(val int)) {
+	count := 0
+	set := func(val int) {
+		if val == match {
+			count += 1
+		}
 	}
+	get := func() int {
+		return count
+	}
+
+	return get, set
 }
 
 func main() {
@@ -43,8 +51,9 @@ func main() {
 	}
 	puzzle := getPuzzle(filename)
 
+	get, update := createUpdate()
+
 	position := start
-	password := 0
 
 	for _, row := range puzzle {
 		dir, amt := split(row)
@@ -52,14 +61,15 @@ func main() {
 		if dir == "R" {
 			diff := (position + amt) % 100
 			position = diff
-			update(diff, &password)
+			update(diff)
 			continue
 		}
 
 		diff := (position - amt + 100) % 100
 		position = diff
-		update(diff, &password)
+		update(diff)
 	}
 
+	password := get()
 	fmt.Print("password is ", password)
 }
