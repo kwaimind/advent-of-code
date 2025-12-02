@@ -5,7 +5,9 @@ import (
 	"os"
 )
 
-var Solutions = map[string]func(filename string) string{
+type Solution func(filename string) string
+
+var Solutions = map[string]Solution{
 	"day1": day1,
 	"day2": day2,
 }
