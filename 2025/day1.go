@@ -44,11 +44,7 @@ func createUpdate() (func() int, func(val int)) {
 	return get, set
 }
 
-func main() {
-	filename := os.Args[1]
-	if filename == "" {
-		filename = "input.txt"
-	}
+func day1(filename string) string {
 	puzzle := getPuzzle(filename)
 
 	get, update := createUpdate()
@@ -72,4 +68,5 @@ func main() {
 
 	password := get()
 	fmt.Print("password is ", password)
+	return "password is " + strconv.Itoa(password)
 }
