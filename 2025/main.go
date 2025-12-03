@@ -2,38 +2,36 @@ package main
 
 import (
 	"fmt"
-	"os"
+
+	"github.com/alexflint/go-arg"
 )
 
 type Solution func(filename string) string
 
-var Solutions = map[string]Solution{
+var solutions = map[string]Solution{
 	"day1": day1,
 	"day2": day2,
 	"day3": day3,
 }
 
+var args struct {
+	Filename string `arg:"-f,--file" default:"test.txt"`
+	Day      int    `arg:"-d,--day,required"`
+}
+
 func main() {
 
-	filename := os.Args[1]
-	if filename == "" {
-		filename = "input.txt"
-	}
+	arg.MustParse(&args)
+	fmt.Printf("Running day %d with %s\n", args.Day, args.Filename)
 
-	day := os.Args[2]
+	key := "day" + fmt.Sprint(args.Day)
 
-	if len(day) == 0 {
-		panic("No day argument provided")
-	}
-
-	key := "day" + day
-
-	if _, exists := Solutions[key]; !exists {
+	if _, exists := solutions[key]; !exists {
 		panic(fmt.Sprintf("No solution for %s", key))
 	}
 
-	solution := Solutions[key]
-	result := solution(filename)
+	solution := solutions[key]
+	result := solution(args.Filename)
 	fmt.Println(result)
 
 }
