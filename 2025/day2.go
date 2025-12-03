@@ -38,22 +38,10 @@ func countDoubleDigit(num int) int {
 	return 0
 }
 
-func counter() (func() int, func(int)) {
-	count := 0
-	set := func(val int) {
-		count += val
-	}
-	get := func() int {
-		return count
-	}
-
-	return get, set
-}
-
 func day2(filepath string) string {
 	puzzle := parseInput(filepath)
 
-	getCount, setCount := counter()
+	_count := counter()
 
 	for _, row := range puzzle {
 		start, end := ranges(row)
@@ -63,11 +51,11 @@ func day2(filepath string) string {
 
 		for i := 0; i < diff+1; i++ {
 			count := countDoubleDigit(i + start)
-			setCount(count)
+			_count(count)
 		}
 
 	}
 
-	sum := getCount()
+	sum := _count()
 	return strconv.Itoa(sum)
 }
