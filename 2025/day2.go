@@ -6,19 +6,6 @@ import (
 	"strings"
 )
 
-func must(check bool, msg string) {
-	if !check {
-		panic(msg)
-	}
-}
-
-func parseInput(filepath string) []string {
-	res, err := os.ReadFile(filepath)
-	must(err == nil, "failed to read file")
-	data := strings.Split(string(res), ",")
-	return data
-}
-
 func ranges(data string) (int, int) {
 	res := strings.Split(data, "-")
 	must(len(res) == 2, "invalid range format")
@@ -39,7 +26,9 @@ func countDoubleDigit(num int) int {
 }
 
 func day2(filepath string) string {
-	puzzle := parseInput(filepath)
+	res, err := os.ReadFile(filepath)
+	must(err == nil, "failed to read file")
+	puzzle := strings.Split(string(res), ",")
 
 	_count := counter()
 

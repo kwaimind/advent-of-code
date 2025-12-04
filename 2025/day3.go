@@ -8,12 +8,6 @@ import (
 	"strings"
 )
 
-func parsePuzzle(filepath string) []string {
-	data, err := os.ReadFile(filepath)
-	must(err == nil, "failed to read file")
-	return strings.Split(string(data), "\n")
-}
-
 func buildCombinations(row string) []string {
 	combinations := []string{}
 
@@ -36,7 +30,9 @@ func countMaxVal(combinations []string) int {
 }
 
 func day3(filepath string) string {
-	puzzle := parsePuzzle(filepath)
+	data, err := os.ReadFile(filepath)
+	must(err == nil, "failed to read file")
+	puzzle := strings.Split(string(data), "\n")
 
 	_count := counter()
 

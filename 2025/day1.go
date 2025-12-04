@@ -13,12 +13,6 @@ func check(e error) {
 	}
 }
 
-func getPuzzle(filepath string) []string {
-	puzzle, err := os.ReadFile(filepath)
-	check(err)
-	return strings.Split(string(puzzle), "\n")
-}
-
 func split(s string) (string, int) {
 	res := strings.SplitAfterN(s, "", 2)
 	num, _ := strconv.Atoi(res[1])
@@ -45,7 +39,9 @@ func createUpdate() (func() int, func(val int)) {
 }
 
 func day1(filename string) string {
-	puzzle := getPuzzle(filename)
+	data, err := os.ReadFile(filename)
+	check(err)
+	puzzle := strings.Split(string(data), "\n")
 
 	get, update := createUpdate()
 
