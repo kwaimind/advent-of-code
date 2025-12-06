@@ -1,6 +1,7 @@
 package main
 
 import (
+	"kwaimind/adventofcode2025/utils"
 	"os"
 	"strconv"
 	"strings"
@@ -8,7 +9,7 @@ import (
 
 func ranges(data string) (int, int) {
 	res := strings.Split(data, "-")
-	must(len(res) == 2, "invalid range format")
+	utils.Must(len(res) == 2, "invalid range format")
 	start, _ := strconv.Atoi(res[0])
 	end, _ := strconv.Atoi(res[1])
 	return start, end
@@ -27,16 +28,16 @@ func countDoubleDigit(num int) int {
 
 func day2(filepath string) string {
 	res, err := os.ReadFile(filepath)
-	must(err == nil, "failed to read file")
+	utils.Must(err == nil, "failed to read file")
 	puzzle := strings.Split(string(res), ",")
 
-	_count := counter()
+	_count := utils.Counter()
 
 	for _, row := range puzzle {
 		start, end := ranges(row)
 
 		diff := end - start
-		must(diff >= 0, "end must be greater than start")
+		utils.Must(diff >= 0, "end must be greater than start")
 
 		for i := 0; i < diff+1; i++ {
 			count := countDoubleDigit(i + start)

@@ -14,6 +14,7 @@ var solutions = map[string]Solution{
 	"day3": day3,
 	"day4": day4,
 	"day5": day5,
+	"day6": day6,
 }
 
 var args struct {

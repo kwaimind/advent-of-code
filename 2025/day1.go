@@ -2,16 +2,11 @@ package main
 
 import (
 	"fmt"
+	"kwaimind/adventofcode2025/utils"
 	"os"
 	"strconv"
 	"strings"
 )
-
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
 
 func split(s string) (string, int) {
 	res := strings.SplitAfterN(s, "", 2)
@@ -40,7 +35,7 @@ func createUpdate() (func() int, func(val int)) {
 
 func day1(filename string) string {
 	data, err := os.ReadFile(filename)
-	check(err)
+	utils.Check(err)
 	puzzle := strings.Split(string(data), "\n")
 
 	get, update := createUpdate()

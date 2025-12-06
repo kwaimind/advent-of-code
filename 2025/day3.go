@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"kwaimind/adventofcode2025/utils"
 	"os"
 	"sort"
 	"strconv"
@@ -25,16 +26,16 @@ func buildCombinations(row string) []string {
 func countMaxVal(combinations []string) int {
 	sort.Sort(sort.Reverse(sort.StringSlice(combinations))) // INFO: mutates the original slice
 	val, err := strconv.Atoi(combinations[0])
-	must(err == nil, "failed to convert to int")
+	utils.Must(err == nil, "failed to convert to int")
 	return val
 }
 
 func day3(filepath string) string {
 	data, err := os.ReadFile(filepath)
-	must(err == nil, "failed to read file")
+	utils.Must(err == nil, "failed to read file")
 	puzzle := strings.Split(string(data), "\n")
 
-	_count := counter()
+	_count := utils.Counter()
 
 	for _, row := range puzzle {
 		combinations := buildCombinations(row)

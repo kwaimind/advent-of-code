@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"kwaimind/adventofcode2025/utils"
 	"strconv"
 	"strings"
 )
@@ -16,7 +17,7 @@ func isRange(line string) bool {
 
 func day5(filepath string) string {
 
-	puzzle := getPuzzle(filepath, Line)
+	puzzle := utils.GetPuzzle(filepath, utils.Line)
 
 	count := 0
 

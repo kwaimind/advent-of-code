@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"kwaimind/adventofcode2025/utils"
+)
 
 /*
   NW  N  NE
@@ -18,7 +21,7 @@ import "fmt"
 
 func day4(filepath string) string {
 
-	puzzle := getPuzzle(filepath, Line)
+	puzzle := utils.GetPuzzle(filepath, utils.Line)
 
 	sum := 0
 
