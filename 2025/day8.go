@@ -27,6 +27,8 @@ func unpack[T comparable](s []T, vars ...*T) {
 	}
 }
 
+// Another day where I didn't fully understand the problem.
+// Made with love from Claude Code.
 func day8(filepath string) string {
 	puzzle := utils.GetPuzzle(filepath, utils.Line)
 
@@ -64,7 +66,70 @@ func day8(filepath string) string {
 		return pairs[i].dist < pairs[j].dist
 	})
 
-	fmt.Printf("closest pair: %+v\n", pairs[0])
+	// Union-Find data structure
+	parent := make(map[Point]Point)
+	size := make(map[Point]int)
 
-	return "Not implemented yet"
+	// Initialize each point as its own parent
+	for _, p := range points {
+		parent[p] = p
+		size[p] = 1
+	}
+
+	// Find root with path compression
+	var find func(Point) Point
+	find = func(p Point) Point {
+		if parent[p] != p {
+			parent[p] = find(parent[p])
+		}
+		return parent[p]
+	}
+
+	// Union two sets
+	union := func(p1, p2 Point) {
+		root1 := find(p1)
+		root2 := find(p2)
+
+		if root1 == root2 {
+			return // already in same circuit
+		}
+
+		// Union by size
+		if size[root1] < size[root2] {
+			parent[root1] = root2
+			size[root2] += size[root1]
+		} else {
+			parent[root2] = root1
+			size[root1] += size[root2]
+		}
+	}
+
+	// Connect 1000 closest pairs
+	for i := 0; i < 1000 && i < len(pairs); i++ {
+		union(pairs[i].p1, pairs[i].p2)
+	}
+
+	// Count circuit sizes
+	circuitSizes := make(map[Point]int)
+	for _, p := range points {
+		root := find(p)
+		circuitSizes[root] = size[root]
+	}
+
+	// Get all sizes and sort descending
+	sizes := []int{}
+	for _, s := range circuitSizes {
+		sizes = append(sizes, s)
+	}
+	sort.Slice(sizes, func(i, j int) bool {
+		return sizes[i] > sizes[j]
+	})
+
+	// Multiply three largest (or fewer if less than 3 circuits)
+	result := 1
+	for i := 0; i < 3 && i < len(sizes); i++ {
+		result *= sizes[i]
+	}
+
+	return fmt.Sprintf("%d", result)
 }
