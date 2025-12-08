@@ -46,7 +46,7 @@ func GetPuzzle(filepath string, sep SeparatorType) []string {
 	return strings.Split(string(data), separator)
 }
 
-func Map[T1, T2 any](s []T1, f func(T1) T2) []T2 {
+func Map[T1, T2 comparable](s []T1, f func(T1) T2) []T2 {
 	r := make([]T2, len(s))
 	for i, v := range s {
 		r[i] = f(v)
@@ -54,7 +54,7 @@ func Map[T1, T2 any](s []T1, f func(T1) T2) []T2 {
 	return r
 }
 
-func Reduce[T1, T2 any](s []T1, accumulator T2, f func(T2, T1, int) T2) T2 {
+func Reduce[T comparable](s []T, accumulator T, f func(T, T, int) T) T {
 	r := accumulator
 	for i, v := range s {
 		r = f(r, v, i)
