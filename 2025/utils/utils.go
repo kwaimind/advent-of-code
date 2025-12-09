@@ -61,3 +61,9 @@ func Reduce[T comparable](s []T, accumulator T, f func(T, T, int) T) T {
 	}
 	return r
 }
+
+func Unpack[T comparable](s []T, vars ...*T) {
+	for i, str := range s {
+		*vars[i] = str
+	}
+}

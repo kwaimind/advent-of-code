@@ -21,12 +21,6 @@ func distance(p1, p2 Point) float64 {
 	return math.Sqrt(dx*dx + dy*dy + dz*dz)
 }
 
-func unpack[T comparable](s []T, vars ...*T) {
-	for i, str := range s {
-		*vars[i] = str
-	}
-}
-
 // Another day where I didn't fully understand the problem.
 // Made with love from Claude Code.
 func day8(filepath string) string {
@@ -43,7 +37,7 @@ func day8(filepath string) string {
 			return val
 		})
 		var x, y, z float64
-		unpack(digits, &x, &y, &z)
+		utils.Unpack(digits, &x, &y, &z)
 		point := Point{int(x), int(y), int(z)}
 
 		points = append(points, point)
